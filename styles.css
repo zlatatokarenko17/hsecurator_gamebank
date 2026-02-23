@@ -1,25 +1,56 @@
+/* =========================
+   Brandbook theme (Raleway)
+   ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
+
 :root{
+  /* Brand palette (pairs) */
+  --c-blue-1:#8195FF;
+  --c-blue-2:#1E35AE;
+  --c-yellow-1:#FFCD00;
+  --c-orange-2:#DB6D07;
+  --c-pink-1:#FF5689;
+  --c-pink-2:#DB1B55;
+  --c-magenta-1:#FF56DD;
+  --c-magenta-2:#AD1EAC;
+  --c-violet-1:#A56FFD;
+  --c-violet-2:#4F288E;
+  --c-green-1:#A8DF09;
+  --c-green-2:#5E8213;
+
+  /* Neutrals */
   --bg:#f6f7fb;
   --surface:#ffffff;
+  --surface2:#f7f7fa;
   --text:#0f172a;
   --muted: rgba(15,23,42,.62);
 
-  --accent:#7c3aed;
-  --accent2:#2563eb;
+  /* Accent strategy:
+     - UI accents: violet/magenta/pink/green
+     - Blue used in isolation (micro)
+     - Yellow used in isolation (micro)
+     - Avoid placing blue and yellow adjacent
+  */
+  --accent: var(--c-violet-1);
+  --accent2: var(--c-magenta-1);
+  --accent3: var(--c-pink-1);
+  --accent4: var(--c-green-1);
+  --link: var(--c-blue-2);
 
   --stroke: rgba(15,23,42,.10);
   --stroke2: rgba(15,23,42,.14);
 
   --shadow: 0 18px 50px rgba(15,23,42,.10);
   --shadow2: 0 10px 26px rgba(15,23,42,.08);
-  --ring: 0 0 0 4px rgba(124,58,237,.18);
+  --ring: 0 0 0 4px rgba(165,111,253,.18);
 
   --radius: 22px;
   --radius2: 16px;
   --gap: 16px;
   --sidebarW: 340px;
 
-  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+  --font: 'Raleway', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -41,19 +72,50 @@ body::before{
   z-index: -1;
   pointer-events:none;
   background:
-    radial-gradient(1000px 600px at 12% 12%, rgba(124,58,237,.12), transparent 60%),
-    radial-gradient(900px 600px at 82% 16%, rgba(37,99,235,.10), transparent 62%),
-    linear-gradient(180deg, #f7f8ff 0%, #eef2ff 55%, #f6f7fb 100%);
+    radial-gradient(1000px 640px at 12% 12%, rgba(165,111,253,.14), transparent 62%),
+    radial-gradient(980px 640px at 84% 14%, rgba(255,86,221,.10), transparent 62%),
+    radial-gradient(900px 680px at 70% 96%, rgba(168,223,9,.11), transparent 64%),
+    linear-gradient(180deg, #fbfbff 0%, #f1f3ff 55%, #f6f7fb 100%);
 }
 
-::selection{ background: rgba(124,58,237,.18); }
+/* Brandbook shapes (PNG) — tinted via CSS masks. */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events:none;
+  opacity: .10;
+  background: linear-gradient(135deg, rgba(165,111,253,.95), rgba(255,86,221,.80));
+  -webkit-mask-image: url('assets/brand/Star_7.png');
+  mask-image: url('assets/brand/Star_7.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 320px;
+  mask-size: 320px;
+  -webkit-mask-position: 6vw 14vh;
+  mask-position: 6vw 14vh;
+  filter: drop-shadow(0 18px 40px rgba(15,23,42,.08));
+}
+
+::selection{ background: rgba(165,111,253,.18); }
 strong{ font-weight: 800; }
 
 /* ---------------- Header (scrolls normally) ---------------- */
 .topbar{
   position: relative;   /* ВАЖНО: не sticky/fixed */
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.90);
+  backdrop-filter: saturate(150%) blur(14px);
   border-bottom: 1px solid rgba(15,23,42,.08);
+}
+
+/* Тонкий бренд-штрих под шапкой (без синего+жёлтого рядом) */
+.topbar::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:-1px;
+  height:3px;
+  background: linear-gradient(90deg, rgba(165,111,253,.70), rgba(255,86,221,.55), rgba(255,86,137,.55));
 }
 
 .topbar-inner{
@@ -82,6 +144,10 @@ strong{ font-weight: 800; }
   max-width: 78ch;
 }
 
+/* По запросу: убрать подпись и ESC-бейдж (не трогаем HTML) */
+.brand .subtitle{ display:none !important; }
+.kbd{ display:none !important; }
+
 .top-actions{ display:flex; align-items:center; gap: 10px; }
 
 .kbd{
@@ -106,6 +172,29 @@ strong{ font-weight: 800; }
   grid-template-columns: var(--sidebarW) 1fr;
   gap: var(--gap);
   align-items:start;
+  position: relative;
+}
+
+/* Второй декоративный элемент (зелёный), не рядом с синим/жёлтым */
+.layout::after{
+  content:"";
+  position:absolute;
+  right:-54px;
+  bottom:-220px;
+  width:520px;
+  height:520px;
+  background: linear-gradient(155deg, rgba(168,223,9,.85), rgba(94,130,19,.72));
+  -webkit-mask-image: url('assets/brand/Union_1.png');
+  mask-image: url('assets/brand/Union_1.png');
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position:center;
+  mask-position:center;
+  opacity:.10;
+  pointer-events:none;
+  filter: drop-shadow(0 18px 45px rgba(15,23,42,.08));
 }
 
 @media (max-width: 1040px){
@@ -164,7 +253,7 @@ strong{ font-weight: 800; }
   box-shadow: 0 10px 24px rgba(15,23,42,.06);
 }
 .input::placeholder{ color: rgba(15,23,42,.38); }
-.input:focus, select:focus{ box-shadow: var(--shadow2), var(--ring); border-color: rgba(124,58,237,.35); }
+.input:focus, select:focus{ box-shadow: var(--shadow2), var(--ring); border-color: rgba(165,111,253,.42); }
 
 .toggle{
   display:flex;
@@ -186,8 +275,104 @@ strong{ font-weight: 800; }
   white-space:nowrap;
 }
 .toggle button[aria-pressed="true"]{
-  background: rgba(124,58,237,.14);
+  background: linear-gradient(135deg, rgba(165,111,253,.24), rgba(255,86,221,.16));
   color: rgba(15,23,42,.92);
+}
+
+/* По запросу: убрать английское AND/OR, оставить только русский текст */
+#modeAnd, #modeOr{ font-size:0 !important; }
+#modeAnd::before{ content:"И"; font-size:12px; }
+#modeOr::before{ content:"ИЛИ"; font-size:12px; }
+
+/* =========================
+   v5 UI fixes (requested)
+   - toggle: simple fill (no "curved stripe")
+   - modal header: no overlap on mobile, title left aligned
+   - all panels/windows: pure white background; only body has gradient
+   ========================= */
+
+/* 1) Windows/panels should be white (no tinted backgrounds) */
+.panel,
+.group-title,
+.card,
+.empty,
+.dialog,
+.dialog-header,
+pre.fulltext{
+  background: #fff !important;
+}
+
+/* Keep subtle separation, but avoid grey wash */
+.badge,
+.tag{
+  background: rgba(15,23,42,.03) !important;
+}
+
+/* 2) Toggle: simple fill for active state */
+.toggle{ background:#fff !important; }
+.toggle button{ position: relative; }
+.toggle button[aria-pressed="true"]{
+  background: rgba(165,111,253,.22) !important; /* violet tint */
+  box-shadow: none !important;
+}
+
+/* 3) Modal header: title left; close button never overlaps */
+.dialog-header{
+  justify-content: flex-start !important;
+}
+.dialog-header .left{
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+#mTitle{ text-align:left !important; }
+#closeBtn{ flex: 0 0 auto !important; }
+
+/* On small screens stack header: title first, button below (left) */
+@media (max-width: 560px){
+  .dialog-header{
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  #closeBtn{
+    align-self: flex-start !important;
+  }
+}
+
+/* =========================
+   v6 fixes
+   - modal header: ALWAYS left title, no overlap on any width
+   - toggle: remove any stray underline/stripe artifacts
+   ========================= */
+
+/* Modal header as grid is the most robust way to prevent overlap */
+.dialog-header{
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start !important;
+  column-gap: 14px !important;
+}
+.dialog-header .left{ min-width:0 !important; }
+#mTitle{ text-align:left !important; }
+#closeBtn{ justify-self: end !important; }
+
+@media (max-width: 560px){
+  .dialog-header{
+    grid-template-columns: 1fr !important;
+    row-gap: 12px !important;
+  }
+  #closeBtn{ justify-self: start !important; }
+}
+
+/* Toggle: ensure solid fill only, no background-image or focus stripe */
+.toggle button{
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+.toggle button[aria-pressed="true"]{
+  background-color: rgba(165,111,253,.22) !important;
+  background-image: none !important;
 }
 
 .btn{
@@ -226,21 +411,21 @@ strong{ font-weight: 800; }
   box-shadow: 0 10px 24px rgba(15,23,42,.05);
   transition: transform .12s ease, border-color .14s ease;
 }
-.chip:hover{ border-color: rgba(124,58,237,.30); transform: translateY(-1px); }
+.chip:hover{ border-color: rgba(165,111,253,.34); transform: translateY(-1px); }
 
 .chip .label{ font-weight: 700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .chip .count{
-  color: rgba(15,23,42,.65);
+  color: rgba(219,109,7,.92);
   font-size: 12px;
   padding: 5px 10px;
   border-radius: 999px;
-  background: rgba(15,23,42,.04);
-  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(255,205,0,.18);
+  border: 1px solid rgba(219,109,7,.22);
 }
 
 .chip[data-on="true"]{
-  border-color: rgba(124,58,237,.35);
-  background: linear-gradient(90deg, rgba(124,58,237,.14), rgba(37,99,235,.10));
+  border-color: rgba(165,111,253,.38);
+  background: linear-gradient(90deg, rgba(165,111,253,.16), rgba(255,86,221,.10));
 }
 
 /* Results header */
@@ -288,8 +473,8 @@ strong{ font-weight: 800; }
   overflow:hidden;
   transition: transform .12s ease, border-color .16s ease;
 }
-.card:hover{ transform: translateY(-2px); border-color: rgba(124,58,237,.26); }
-.card:focus{ outline:none; box-shadow: var(--shadow2), var(--ring); border-color: rgba(124,58,237,.35); }
+.card:hover{ transform: translateY(-2px); border-color: rgba(165,111,253,.30); }
+.card:focus{ outline:none; box-shadow: var(--shadow2), var(--ring); border-color: rgba(165,111,253,.42); }
 
 .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 10px; min-width:0; }
 .card-title{ font-size: 14px; font-weight: 800; line-height:1.2; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -330,7 +515,7 @@ strong{ font-weight: 800; }
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-.tag.more{ background: rgba(124,58,237,.10); border-color: rgba(124,58,237,.22); color: rgba(15,23,42,.86); }
+.tag.more{ background: rgba(165,111,253,.12); border-color: rgba(165,111,253,.26); color: rgba(15,23,42,.86); }
 
 .empty{
   border: 1px dashed rgba(15,23,42,.18);
@@ -911,4 +1096,51 @@ pre.fulltext{
 /* если текста мало — окно не растягивается */
 pre.fulltext:only-child{
   max-height: none !important;
+}
+/* ===================================
+   FINAL FIX: MODAL HEADER NEVER OVERLAPS
+   - title always left
+   - close button stays on the right (or drops below on small screens)
+   - kills older "center + absolute button" rules
+   =================================== */
+
+.dialog-header{
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) auto !important;
+  align-items: start !important;
+  justify-content: stretch !important;
+}
+
+.dialog-header .left{
+  width: auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+#mTitle{
+  text-align: left !important;
+  margin: 0 !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* neutralize absolute positioning from older patches */
+.dialog-header #closeBtn,
+.dialog-header .btn,
+.dialog-header button{
+  position: static !important;
+  right: auto !important;
+  top: auto !important;
+  justify-self: end !important;
+  align-self: start !important;
+}
+
+@media (max-width: 560px){
+  .dialog-header{
+    grid-template-columns: 1fr !important;
+    row-gap: 10px !important;
+  }
+  .dialog-header #closeBtn{
+    justify-self: start !important;
+  }
 }
